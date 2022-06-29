@@ -30,7 +30,6 @@ SET time_zone = "+00:00";
 CREATE TABLE `admin` (
   `name` varchar(100) NOT NULL,
   `id` int(20) NOT NULL,
-  `ic` varchar(50) NOT NULL,
   `codeprog` varchar(10) NOT NULL,
   `kelas` varchar(50) NOT NULL,
   `email` varchar(100) NOT NULL,
@@ -41,11 +40,11 @@ CREATE TABLE `admin` (
 -- Dumping data for table `admin`
 --
 
-INSERT INTO `admin` (`name`, `id`, `ic`, `codeprog`, `kelas`, `email`, `pfimg`) VALUES
-('Nur Shafinaz Binti Shah Runnizan', 2018233392, '000824060592', 'CS110', 'JCS1105G', 'shaf.shafie00@gmail.com', 'shaf.png'),
-('Nur Khaliesya Nabihah Binti Shamsul Elme', 2018247314, '000519050056', 'CS110', 'JCS1105G', 'khaliesya04@gmail.com', 'khal.png'),
-('Muhammad Haikal Bin Khalid', 2018270744, '000522100317', 'CS110', 'JCS1105G', 'haikal2205hbk@gmail.com', 'kal.png'),
-('Muhammad Haziq Akmal Bin Jamaluddin', 2018412658, '000223100157', 'CS110', 'JCS1105G', 'haziqjamal10@gmail.com', 'ziq.png');
+INSERT INTO `admin` (`name`, `id`, `codeprog`, `kelas`, `email`, `pfimg`) VALUES
+('Aqil Khairy Bin Hamsani', 2021856342, 'CS230', 'T5CS2304B1', '2021856342@student.uitm.edu.my', 'aqil.png'),
+('Muhammad Afif Bin Mohammad Amran', 2021868294, 'CS230', 'T5CS2304B1', '2021868294@student.uitm.edu.my', 'afif.png'),
+('Muhammad Haikal Bin Khalid', 2021812708, 'CS230', 'T5CS2304B1', '2021812708@student.uitm.edu.my', 'kal.png'),
+('Tuan Ahmad Hakimi Bin Tuan Abdul Aziz', 2021888222, 'CS230', 'T5CS2304B1', '2021888222@student.uitm.edu.my', 'hakimi.png');
 
 -- --------------------------------------------------------
 
