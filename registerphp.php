@@ -7,7 +7,7 @@ require 'fx.php';
 <html>
 
 <head>
-    <title>PetShop | Log In</title>
+    <title>PetShop | Register</title>
 </head>
 <style>
     body {
@@ -71,57 +71,41 @@ require 'fx.php';
     <br><br><br><br><br><br><br>
 
     <div align="center">
-        <h1>Log In</h1>
-        <input type="radio" name="loginRadio" onclick="showForm(this.value)" value="customer" checked>Customer
-        <input type="radio" name="loginRadio" onclick="showForm(this.value)" value="admin">Admin<br>
+        <h1>Register</h1>
     </div>
 
-    <script language="javascript">
-        function showForm(value) {
-            if (value == "customer") {
-                document.getElementById("customerLogin").hidden = false;
-                document.getElementById("adminLogin").hidden = true;
-            } else {
-                document.getElementById("customerLogin").hidden = true;
-                document.getElementById("adminLogin").hidden = false;
-            }
-        }
-    </script>
-
-    <div id="customerLogin">
+    <div id="customerRegister">
         <form action="" method="post">
             <table align="center">
                 <tr>
-                    <td><label for="cust_username">Username:</label></td>
-                    <td><input type="text" id="cust_username" name="cust_username" /></td>
+                    <td><label for="cust_fullname">Full Name:</label></td>
+                    <td><input type="text" id="cust_fullname" name="cust_fullname" required/></td>
+                </tr>
+                <tr>
+                    <td><label for="cust_username">Username (for login):</label></td>
+                    <td><input type="text" id="cust_username" name="cust_username" required/></td>
                 </tr>
                 <tr>
                     <td><label for="cust_password">Password:</label></td>
-                    <td><input type="password" id="cust_password" name="cust_password" /></td>
+                    <td><input type="password" id="cust_password" name="cust_password" required/></td>
+                </tr>
+                <tr>
+                    <td><label for="cust_password2">Re-enter Password:</label></td>
+                    <td><input type="password" id="cust_password2" name="cust_password2" required/></td>
+                </tr>
+                <tr>
+                    <td><label for="cust_address">Address:</label></td>
+                    <td><input type="text" id="cust_address" name="cust_address" required/></td>
+                </tr>
+                <tr>
+                    <td><label for="cust_phone">Phone:</label></td>
+                    <td><input type="text" id="cust_phone" name="cust_phone" required/></td>
                 </tr>
             </table>
             <br>
             <div align="center">
-                <button type="submit" name="submit" id="button">Login</button><br>
-                <a style="font-size: 12px;" href="registerphp.php">Don't have account? Register now.</a>
-            </div>
-        </form>
-    </div>
-    <div id="adminLogin" hidden>
-        <form action="" method="post">
-            <table align="center">
-                <tr>
-                    <td><label for="admin_id">Admin ID:</label></td>
-                    <td><input type="text" id="admin_id" name="admin_id" /></td>
-                </tr>
-                <tr>
-                    <td><label for="admin_password">Password:</label></td>
-                    <td><input type="password" id="admin_password" name="admin_password" /></td>
-                </tr>
-            </table>
-            <br>
-            <div align="center">
-                <button type="submit" name="submit" id="button">Login</button>
+                <button type="submit" name="submit" id="button">Register</button><br>
+                <a style="font-size: 12px;" href="loginphp.php">Already have account? Login now.</a>
             </div>
         </form>
     </div>
