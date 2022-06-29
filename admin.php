@@ -4,7 +4,7 @@ require 'fx.php';
 $admins = query("SELECT * FROM admin");
 $product = query("SELECT * FROM product");
 ?>
-
+<!-- test comment -->
 <!DOCTYPE html>
 <html>
 
