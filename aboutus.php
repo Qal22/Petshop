@@ -74,7 +74,7 @@ $admins = query("SELECT * FROM admin");
         <a href="foodsntreats.php">Foods & Treats</a>
         <a href="accessories.php">Accessories</a>
         <a href="aboutus.php" style="background-color:#1b383d; color:white">About Us</a>
-        <a href="loginphp.php">Admin Log in</a>
+        <a href="loginphp.php">Log in</a>
     </div>
 
     <br><br><br>
