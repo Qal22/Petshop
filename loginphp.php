@@ -1,6 +1,67 @@
 <?php
 require 'fx.php';
 
+$username = $password = "";
+// Processing form data when form is submitted 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    session_start(); //start a session 
+    // Validate username 
+    if ($_POST["userlevel"] == "customer") {
+
+        $username = trim($_POST["cust_username"]);
+        $password = md5(trim($_POST["cust_password"]));
+        // Prepare a select statement 
+
+        $sql = "SELECT * FROM customer WHERE username = '$username'
+        and password = '$password' ";
+
+        $result = mysqli_query($conn, $sql); //execute SQL statement 
+
+        if (!$result)
+            die("Database access failed: " . mysqli_connect_error());
+
+        // get number of rows returned 
+        $rows = mysqli_num_rows($result);
+        if ($rows) { //correct username & password
+            $row = mysqli_fetch_array($result);
+            $_SESSION['customer'] = $username;
+            $_SESSION['loggedin'] = true;
+            $_SESSION['userlevel'] = $row['userlevel'];
+            header("location: index.php");
+            $usrlevel = $_SESSION["userlevel"];
+        } else {
+            echo "<script> alert('Oops! Wrong Username & Password'); </script>";
+        }
+    } else {
+
+        $username = $_POST["admin_id"];
+        $password = trim($_POST["admin_password"]);
+        // Prepare a select statement 
+
+        $sql = "SELECT * FROM admin WHERE name = '$username'
+        and id = '$password' ";
+
+        $result = mysqli_query($conn, $sql); //execute SQL statement 
+
+
+        if (!$result)
+            die("Database access failed: " . mysqli_connect_error());
+        // get number of rows returned 
+        $rows = mysqli_num_rows($result);
+        if ($rows) { //correct username & password
+            $row = mysqli_fetch_array($result);
+            $_SESSION['admin'] = $username;
+            $_SESSION['loggedin'] = true;
+            $_SESSION['userlevel'] = $row['userlevel'];
+            header("location: index.php");
+            $usrlevel = $_SESSION["userlevel"];
+        } else {
+            echo "<script> alert('Oops! Wrong Username & Password'); </script>";
+        }
+    }
+    // Close statement 
+    mysqli_close($conn);
+}
 ?>
 
 <!DOCTYPE html>
@@ -43,10 +104,13 @@ require 'fx.php';
 
     #footer {
         overflow: hidden;
-        padding: 22px 10px;
+        padding: 20px 10px;
         background-color: #7DA2A9;
         color: black;
         text-align: center;
+        position: fixed;
+        width: 100%;
+        bottom: 0 ;
     }
 
     #button {
@@ -65,17 +129,25 @@ require 'fx.php';
 
 <body>
     <div id="header" align="center">
-        <h1>Pet Shop Website</h1>
+        <a href="index.php">MyPet</a>
+        <a href="foodsntreats.php">Foods & Treats</a>
+        <a href="accessories.php">Accessories</a>
+        <a href="aboutus.php">About Us</a>
+        <a href="loginphp.php">Log in</a>
     </div>
 
-    <br><br><br><br><br><br><br>
+    <div style="background-color:#a1babf">
+    <br><br><br>
+    <h1 style="text-align:center">MyPet Shop</h1>
+    <br>
+    </div>
 
     <div align="center">
         <h1>Log In</h1>
         <input type="radio" name="loginRadio" onclick="showForm(this.value)" value="customer" checked>Customer
         <input type="radio" name="loginRadio" onclick="showForm(this.value)" value="admin">Admin<br>
     </div>
-
+    <br>
     <script language="javascript">
         function showForm(value) {
             if (value == "customer") {
@@ -89,7 +161,7 @@ require 'fx.php';
     </script>
 
     <div id="customerLogin">
-        <form action="" method="post">
+        <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
             <table align="center">
                 <tr>
                     <td><label for="cust_username">Username:</label></td>
@@ -103,12 +175,13 @@ require 'fx.php';
             <br>
             <div align="center">
                 <button type="submit" name="submit" id="button">Login</button><br>
-                <a style="font-size: 12px;" href="registerphp.php">Don't have account? Register now.</a>
+                <a style="font-size: 14px;" href="registerphp.php"><b>Don't have account? Register now.</b></a>
             </div>
+            <input type="hidden" name="userlevel" value="customer">
         </form>
     </div>
     <div id="adminLogin" hidden>
-        <form action="" method="post">
+        <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
             <table align="center">
                 <tr>
                     <td><label for="admin_id">Admin ID:</label></td>
@@ -123,6 +196,7 @@ require 'fx.php';
             <div align="center">
                 <button type="submit" name="submit" id="button">Login</button>
             </div>
+            <input type="hidden" name="userlevel" value="admin">
         </form>
     </div>
 
