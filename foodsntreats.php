@@ -102,7 +102,8 @@
                     echo "RM",number_format($prod["price"],2),"<br>";
                     ?>
                     <br>
-                    <a href="buying.phpid=<?php echo $prod["prod_id"]; ?>" style="size: 20px;" id="button">Buy</a>
+                    <a href="buying.php?id=<?php echo $prod["prod_id"]; ?>" style="size: 20px;" id="button">Details</a>
+                    <a href="buying.php?id=<?php echo $prod["prod_id"]; ?>" style="size: 20px;" id="button">Add To Cart</a>
                     <br><br>
                     </td>
                     <?php $counter++; } ?>

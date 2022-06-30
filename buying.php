@@ -85,11 +85,12 @@
         }
 
         h1 {
-            margin-left: 40px;
+            text-align: center;
         }
 
         table {
-            margin-left: 40px;
+            margin-left: auto;
+            margin-right: auto;
         }
     </style>
     <script>
@@ -108,7 +109,7 @@
             <a href="index.php">Cancel</a>
         </div>
 
-        <br><br><br>
+        <br><br><br><br><br>
 
         <form action="" method="post">
         <h1>Product Details</h1>
@@ -134,9 +135,12 @@
                     <label for="quantitybuy">Quantity : </label>
                     <input type="number" name="quantitybuy" id="quantitybuy" min="1" max="<?= $product["quantity"]; ?>">
                 </td>
+                <td>
+                    <button type="submit" name="submit" onclick="calculate()">Add To Cart</button>
+                </td>
             </tr>
         </table>
-        <h1>Shipment Details</h1>
+        <!-- <h1>Shipment Details</h1>
         <table>
             <ul>
                 <tr>
@@ -174,10 +178,10 @@
                     </td>
                 </tr>
             </ul>
-        </table>
+        </table> -->
         </form>
 
-        <br><br>
+        <br><br><br><br><br><br><br><br><br>
 
         <div id="footer">
             <b>&copy; MyPet Sdn Bhd. All Rights Reserved (Educational Purposes)</b> 
