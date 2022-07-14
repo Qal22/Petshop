@@ -20,6 +20,13 @@ function query($query)
     return $rows;
 }
 
+function getTotalRow($query) {
+    global $conn;
+
+    $result  = mysqli_query($conn, $query);
+    return mysqli_fetch_row($result);
+}
+
 function addprod($data)
 {
     global $conn;

@@ -1,11 +1,27 @@
 <?php
 require 'fx.php';
 
-$product = query("SELECT * FROM product");
+//pagination limit 4 item per page
+$limit = 4;
+$page_number = 1;
+if (isset($_GET["page"])) {
+    $page_number = $_GET["page"];
+} else {
+    $page_number = 1;
+}
+$total_rows = getTotalRow("SELECT COUNT(*) FROM product")[0];
+$total_pages = ceil($total_rows / $limit);
 
+$initial_page = ($page_number - 1) * $limit;
+$getQuery = "SELECT * FROM product LIMIT $initial_page, $limit";
+$product = mysqli_query($conn, $getQuery);
+
+$showPagination = true;
 if (isset($_POST["search"])) {
+    $showPagination = false;
     $product = searchprod($_POST["keyword"]);
 }
+
 ?>
 
 <!DOCtype html>
@@ -79,6 +95,36 @@ if (isset($_POST["search"])) {
         cursor: pointer;
     }
 
+    .pagination a {
+        background-color: #E6E2DD;
+        color: black;
+        border: 2px solid;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .pagination .active {
+        background-color: #7DA2A9;
+        color: black;
+        border: 2px solid;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .pagination span {
+        background-color: white;
+        color: gray;
+        border: 2px solid;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+    }
+
     table {
         width: 100%;
     }
@@ -110,9 +156,36 @@ if (isset($_POST["search"])) {
 
     <p>&nbsp;&nbsp; All prodcuts</p>
 
+    <div class="pagination" align="center" <?php
+        if(!$showPagination) {
+            echo 'hidden';
+        }
+    ?>>
+        <?php
+        $pageURL = "";
+        if ($page_number >= 2) {
+            $pageURL .= "<a href='index.php?page=" . ($page_number - 1) . "#table'> Prev </a>";
+        } else {
+            $pageURL .= "<span> Prev </span>";
+        }
+        for ($i = 1; $i <= $total_pages; $i++) {
+            if ($i == $page_number) {
+                $pageURL .= "<a class = 'active' href='index.php?page=" . $i . "#table'>" . $i . " </a>";
+            } else {
+                $pageURL .= "<a href='index.php?page=" . $i . "#table'>" . $i . " </a>";
+            }
+        };
+        echo $pageURL;
+        if ($page_number < $total_pages) {
+            echo "<a href='index.php?page=" . ($page_number + 1) . "#table'> Next </a>";
+        } else {
+            echo "<span> Next </span>";
+        }
 
+        ?>
+    </div>
     <?php $counter = 0; ?>
-    <table align="center">
+    <table id="table" align="center">
         <?php foreach ($product as $prod) :
             if ($counter == 0) {
                 echo "<tr>";
@@ -138,7 +211,7 @@ if (isset($_POST["search"])) {
         endforeach; ?>
     </table>
 
-    <br>
+    <br><br>
 
     <div id="footer">
         <b>&copy; MyPet Sdn Bhd. All Rights Reserved (Educational Purposes)</b>
