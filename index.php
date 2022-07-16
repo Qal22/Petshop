@@ -1,6 +1,56 @@
 <?php
 require 'fx.php';
 
+session_start();
+
+if (isset($_GET["idc"]))
+{
+    if ($_SESSION["cart"])
+    {
+        $item_array_id = array_column($_SESSION["cart"], "idc");
+
+        if (in_array($_GET["idc"], $item_array_id))
+        {
+            echo "
+            <script>
+                alert('Product is already added in the cart...');
+                document.location.href = 'index.php';
+            </script>
+            ";
+        }
+        else
+        {
+            $count = count($_SESSION["cart"]);
+            $item_array = array(
+                "idc" => $_GET["idc"]
+            );
+            $_SESSION["cart"][$count] = $item_array;
+
+            echo "
+            <script>
+                alert('Added to cart...');
+                document.location.href = 'index.php';
+            </script>
+            ";
+        }
+    }
+    else
+    {
+        $item_array = array(
+            "idc" => $_GET["idc"]
+        );
+
+        $_SESSION["cart"][0] = $item_array;
+
+        echo "
+            <script>
+                alert('Added to cart...');
+                document.location.href = 'index.php';
+            </script>
+            ";
+    }
+}
+
 //pagination limit 4 item per page
 $limit = 4;
 $page_number = 1;
@@ -139,6 +189,7 @@ if (isset($_POST["search"])) {
         <a href="index.php" style="background-color:#1b383d; color:white">MyPet</a>
         <a href="foodsntreats.php">Foods & Treats</a>
         <a href="accessories.php">Accessories</a>
+        <a href="cart.php">Cart</a>
         <a href="aboutus.php">About Us</a>
         <a href="loginphp.php">Log in</a>
     </div>
@@ -199,7 +250,7 @@ if (isset($_POST["search"])) {
                 ?>
                 <br>
                 <a href="buying.php?id=<?php echo $prod["prod_id"]; ?>" style="size: 20px;" id="button">Details</a>
-                <a href="buying.php?id=<?php echo $prod["prod_id"]; ?>" style="size: 20px;" id="button">Add To Cart</a>
+                <a href="index.php?idc=<?php echo $prod["prod_id"]; ?>" style="size: 20px;" id="button">Add To Cart</a>
                 <br><br>
             </td>
         <?php

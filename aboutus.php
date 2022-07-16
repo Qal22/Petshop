@@ -163,7 +163,7 @@ $admins = query("SELECT * FROM admin");
         endforeach; ?>
     </table>
 
-    <br><br>
+    <br><br><br><br>
 
     <div id="footer">
         <b>&copy; MyPet Sdn Bhd. All Rights Reserved (Educational Purposes)</b>

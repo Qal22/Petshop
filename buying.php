@@ -30,7 +30,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title></title>
+        <title>Product Details</title>
         <style>
         body {
                 margin: 0;
@@ -133,7 +133,7 @@
             <tr>
                 <td>
                     <label for="quantitybuy">Quantity : </label>
-                    <input type="number" name="quantitybuy" id="quantitybuy" min="1" max="<?= $product["quantity"]; ?>">
+                    <input type="number" name="quantitybuy" id="quantitybuy" min="1" max="<?= $product["quantity"]; ?>" required>
                 </td>
                 <td>
                     <button type="submit" name="submit" onclick="calculate()">Add To Cart</button>
