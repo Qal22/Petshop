@@ -92,7 +92,7 @@ if (isset($_POST["submit"])) {
 
     <br><br><br><br><br><br><br>
 
-    <p align="center">Please Enter the details Of The Product</p>
+    <h3 align="center">Please Enter the details Of The Product</h3>
 
     <form action="" method="post" enctype="multipart/form-data">
         <ul>
