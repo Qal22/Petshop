@@ -131,10 +131,10 @@ if (isset($_POST["submit"])) {
                 </td>
             </tr>
             <tr>
-                <td>
+                <!-- <td>
                     <label for="quantitybuy">Quantity : </label>
                     <input type="number" name="quantitybuy" id="quantitybuy" min="1" max="<?= $prod["quantity"]; ?>" required>
-                </td>
+                </td> -->
                 <td>
                     <?php if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                         echo '<a href="loginphp.php?idc=' . $prod['prod_id'] . '" style="size: 20px;" id="button">Add To Cart</a>';
