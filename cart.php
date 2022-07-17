@@ -210,6 +210,7 @@ if (isset($_POST["remove"])) {
                         <h4 align="center">Total Price</h4>
                         <label for="totalprice">RM</label>
                         <input type="text" id="totalprice" name="totalprice" readonly value="">
+                        <input type="submit" name="submit" value="Pay" id="button">
                     </td>
                 </tr>
             </table>
