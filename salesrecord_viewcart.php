@@ -150,7 +150,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                             echo "<p class='lead'><em>No records were found.</em></p>";
                         }
                     } else {
-                        echo "ERROR: Could not able to execute $sql. " . mysqli_error($link);
+                        echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
                     }
                     // Close connection
                     mysqli_close($conn);

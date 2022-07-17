@@ -135,7 +135,7 @@ $product = query("SELECT * FROM product");
             echo ('<div id="header" align="center">');
             echo ('<a href="index.php">MyPet</a>');
             echo ('<a href="foodsntreats.php">Foods & Treats</a>');
-            echo ('<a href="accessories.php"style="background-color:#1b383d; color:white>Accessories</a>');
+            echo ('<a href="accessories.php"style="background-color:#1b383d; color:white">Accessories</a>');
             echo ('<a href="cart.php" ">Cart</a>');
             echo ('<a href="aboutus.php">About Us</a>');
             echo ('<a href="logoutphp.php">Log Out</a>');
@@ -174,7 +174,7 @@ $product = query("SELECT * FROM product");
                     <?php if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                         echo '  <a href="loginphp.php?idc=' . $prod['prod_id'] . '" style="size: 20px;" id="button">Add To Cart</a>';
                     } else {
-                        echo '<a href="index.php?idc=' . $prod['prod_id'] . '"style="size: 20px;" id="button">Add To Cart</a>';
+                        echo '<a href="accessories.php?idc=' . $prod['prod_id'] . '"style="size: 20px;" id="button">Add To Cart</a>';
                     } ?>
                     <br><br>
                 </td>
