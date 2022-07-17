@@ -110,7 +110,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                 <div class="col-md-12">
                     <div class="page-header clearfix">
                         <br>
-                        <h1 class="pull-left">Sales Record</h1> <br>
+                        <h1><b>Sales Record</b></h1> <br>
                     </div>
                     <?php
                     // Include dbConfig file
