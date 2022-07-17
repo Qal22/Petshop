@@ -99,8 +99,8 @@ session_start();?>
 <body>
 <?php if ($_SESSION["userlevel"]== "admin") {
             echo ('<div id="header" align="center">');
-            echo ('<a href="index.php"style="background-color:#1b383d; color:white">MyPet</a>');
-            echo ('<a href="admin.php">Products</a>');
+            echo ('<a href="index.php">MyPet</a>');
+            echo ('<a href="admin.php"style="background-color:#1b383d; color:white">Products</a>');
             echo ('<a href="salesrecord.php" >Sales Record</a>');
             echo ('<a href="aboutus.php">About Us</a>');
             echo ('<a href="logoutphp.php">Log Out</a>');
