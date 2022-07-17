@@ -80,6 +80,7 @@ $product = query("SELECT * FROM product");
         <a href="index.php">MyPet</a>
         <a href="foodsntreats.php" style="background-color:#1b383d; color:white">Foods & Treats</a>
         <a href="accessories.php">Accessories</a>
+        <a href="cart.php">Cart</a>
         <a href="aboutus.php">About Us</a>
         <a href="loginphp.php">Log in</a>
     </div>
