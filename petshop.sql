@@ -23,8 +23,8 @@ CREATE TABLE IF NOT EXISTS `admin` (
   `id` int(20) NOT NULL,
   `codeprog` varchar(10) NOT NULL,
   `kelas` varchar(50) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `pfimg` varchar(50) NOT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `pfimg` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -37,6 +37,27 @@ REPLACE INTO `admin` (`name`, `id`, `codeprog`, `kelas`, `email`, `pfimg`) VALUE
 	('Tuan Ahmad Hakimi Bin Tuan Abdul Aziz', 2021888222, 'CS230', 'T5CS2304B1', '2021888222@student.uitm.edu.my', 'hakimi.png');
 /*!40000 ALTER TABLE `admin` ENABLE KEYS */;
 
+-- Dumping structure for table petshop.cart
+CREATE TABLE IF NOT EXISTS `cart` (
+  `cart_id` int(11) NOT NULL AUTO_INCREMENT,
+  `salesrecord_id` int(11) NOT NULL,
+  `prod_id` int(11) NOT NULL DEFAULT '0',
+  `cart_quantity` int(11) NOT NULL,
+  PRIMARY KEY (`cart_id`),
+  KEY `FK1_product` (`prod_id`),
+  KEY `FK2_sales_record` (`salesrecord_id`),
+  CONSTRAINT `FK1_product` FOREIGN KEY (`prod_id`) REFERENCES `product` (`prod_id`),
+  CONSTRAINT `FK2_sales_record` FOREIGN KEY (`salesrecord_id`) REFERENCES `sales_record` (`salesrecord_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table petshop.cart: ~2 rows (approximately)
+/*!40000 ALTER TABLE `cart` DISABLE KEYS */;
+REPLACE INTO `cart` (`cart_id`, `salesrecord_id`, `prod_id`, `cart_quantity`) VALUES
+	(19, 44, 5, 3),
+	(20, 44, 7, 2),
+	(21, 45, 27, 1);
+/*!40000 ALTER TABLE `cart` ENABLE KEYS */;
+
 -- Dumping structure for table petshop.customer
 CREATE TABLE IF NOT EXISTS `customer` (
   `username` varchar(50) NOT NULL,
@@ -47,8 +68,10 @@ CREATE TABLE IF NOT EXISTS `customer` (
   PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table petshop.customer: ~0 rows (approximately)
+-- Dumping data for table petshop.customer: ~2 rows (approximately)
 /*!40000 ALTER TABLE `customer` DISABLE KEYS */;
+REPLACE INTO `customer` (`username`, `fullname`, `password`, `address`, `phone`) VALUES
+	('aqil', 'Aqil Khairy', 'e10adc3949ba59abbe56e057f20f883e', 'BUKIT KAPAR', '60189630692');
 /*!40000 ALTER TABLE `customer` ENABLE KEYS */;
 
 -- Dumping structure for table petshop.product
@@ -60,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `product` (
   `price` float NOT NULL,
   `imageprod` varchar(100) NOT NULL,
   PRIMARY KEY (`prod_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4;
 
 -- Dumping data for table petshop.product: ~16 rows (approximately)
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
@@ -85,23 +108,20 @@ REPLACE INTO `product` (`name`, `prod_id`, `type`, `quantity`, `price`, `imagepr
 
 -- Dumping structure for table petshop.sales_record
 CREATE TABLE IF NOT EXISTS `sales_record` (
-  `cust_name` varchar(100) NOT NULL,
-  `sales_id` int(10) NOT NULL AUTO_INCREMENT,
-  `address` varchar(200) NOT NULL,
-  `num_phone` varchar(20) NOT NULL,
-  `prod_id` int(10) NOT NULL,
-  `quantity` int(100) NOT NULL,
-  `total_price` float NOT NULL,
-  PRIMARY KEY (`sales_id`),
-  KEY `prod_id` (`prod_id`),
-  CONSTRAINT `sales_record_ibfk_1` FOREIGN KEY (`prod_id`) REFERENCES `product` (`prod_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4;
+  `salesrecord_id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) NOT NULL,
+  `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `total_price` double NOT NULL DEFAULT '0',
+  PRIMARY KEY (`salesrecord_id`),
+  KEY `FK1_customer` (`username`),
+  CONSTRAINT `FK1_customer` FOREIGN KEY (`username`) REFERENCES `customer` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table petshop.sales_record: ~2 rows (approximately)
 /*!40000 ALTER TABLE `sales_record` DISABLE KEYS */;
-REPLACE INTO `sales_record` (`cust_name`, `sales_id`, `address`, `num_phone`, `prod_id`, `quantity`, `total_price`) VALUES
-	('Haikal Khalid', 35, 'No.19B, Jalan Jati, Desa Subang Perantau, Kampung Melayu Subang', '0182884073', 4, 2, 16.4),
-	('Haikal Khalid', 37, 'No.19B, Jalan Jati, Desa Subang Perantau, Kampung Melayu Subang', '0182884073', 4, 5, 41);
+REPLACE INTO `sales_record` (`salesrecord_id`, `username`, `date_created`, `total_price`) VALUES
+	(44, 'aqil', '2022-07-18 01:31:34', 51.5),
+	(45, 'aqil', '2022-07-18 01:32:32', 29.7);
 /*!40000 ALTER TABLE `sales_record` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
