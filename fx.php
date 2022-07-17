@@ -20,7 +20,8 @@ function query($query)
     return $rows;
 }
 
-function getTotalRow($query) {
+function getTotalRow($query)
+{
     global $conn;
 
     $result  = mysqli_query($conn, $query);
@@ -155,5 +156,38 @@ function buyprod($data)
 
     mysqli_query($conn, $query);
 
+    return mysqli_affected_rows($conn);
+}
+
+
+function addsales($data)
+{
+    global $conn;
+    $getQuery = "SELECT * FROM product";
+    $product = mysqli_query($conn, $getQuery);
+
+    $username = $_SESSION["customer"];
+    $query2 = "INSERT INTO sales_record (username) VALUES ('$username'); ";
+    mysqli_query($conn, $query2);
+    $salesrecord_id = mysqli_insert_id($conn);
+
+    $total = 0.0;
+    $cart = $_SESSION["cart"];
+    $prod_id = array_column($cart, "idc");
+    $quantity = $_POST["quantity"];
+    $no = 0;
+    foreach ($product as $prod) :
+        for ($i = 0; $i < count($prod_id); $i++) {
+            if ($prod["prod_id"] == $prod_id[$i]) {
+                $query = "INSERT INTO cart (salesrecord_id, prod_id, cart_quantity) VALUES ($salesrecord_id, $prod_id[$i], $quantity[$no]); ";
+                $total += ((float)$prod["price"]*(int)$quantity[$no]);
+                $no++;
+                mysqli_query($conn, $query);
+            }
+        }
+    endforeach;
+
+    $query2 = "UPDATE sales_record SET total_price=$total WHERE salesrecord_id=$salesrecord_id;";
+    mysqli_query($conn, $query2);
     return mysqli_affected_rows($conn);
 }

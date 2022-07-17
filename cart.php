@@ -1,13 +1,12 @@
 <?php
 
+session_start();
 require 'fx.php';
 
-session_start(); 
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     header("location: loginphp.php");
     exit;
     $_SESSION["userlevel"];
-
 }
 
 $getQuery = "SELECT * FROM product";
@@ -17,18 +16,6 @@ if (isset($_POST["remove"])) {
     if ($_GET["action"] == "remove") {
         foreach ($_SESSION["cart"] as $key => $value) {
             if ($value["idc"] == $_GET["id"]) {
-
-                $prod_id = array_column($_SESSION["cart"], "idc");
-                if ($prod_id == 0) {
-                    unset($_SESSION["cart"]);
-                    echo "
-                    <script>
-                        alert('Product has been removed...');
-                        document.location.href = 'cart.php';
-                    </script>
-                    ";
-                }
-
                 unset($_SESSION["cart"][$key]);
                 echo "
                 <script>
@@ -39,6 +26,19 @@ if (isset($_POST["remove"])) {
             }
         }
     }
+}
+
+if (isset($_POST["pay"])) {
+    addsales($_POST);
+    foreach ($_SESSION["cart"] as $key => $value) {
+        unset($_SESSION["cart"][$key]);
+    }
+    echo "
+                <script>
+                    alert('Thank you for the purchase...');
+                    document.location.href = 'index.php';
+                </script>
+                ";
 }
 
 ?>
@@ -52,9 +52,27 @@ if (isset($_POST["remove"])) {
     <title>MyPet</title>
     <script>
         function updateprice() {
-            var x = document.getElementById("quantitybuy").value;
             var elem = document.getElementById("totalprice");
-            elem.value = x;
+            var totalprice = 0;
+            const quantities = document.getElementsByName("quantitybuy");
+            const prices = document.getElementsByName("prices");
+            for (var i = 0; i < quantities.length; i++) {
+                totalprice += Number(quantities[i].value) * Number(prices[i].innerHTML);
+            }
+            elem.value = totalprice.toFixed(2);
+
+            var listquantity = document.getElementById("listquantity");
+            var input = updateQuantity();
+            listquantity.innerHTML = input;
+        }
+
+        function updateQuantity() {
+            var input = "";
+            const quantities = document.getElementsByName("quantitybuy");
+            for (var i = 0; i < quantities.length; i++) {
+                input += "<input type='text' name='quantity["+i+"]' value='" + quantities[i].value + "' hidden/>";
+            }
+            return input;
         }
     </script>
 </head>
@@ -149,7 +167,7 @@ if (isset($_POST["remove"])) {
 </style>
 
 <body>
-<?php if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+    <?php if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
         echo ('<div id="header" align="center">');
         echo ('<a href="index.php" >MyPet</a>');
         echo ('<a href="foodsntreats.php">Foods & Treats</a>');
@@ -168,59 +186,61 @@ if (isset($_POST["remove"])) {
             echo ('<a href="aboutus.php">About Us</a>');
             echo ('<a href="logoutphp.php">Log Out</a>');
             echo ('</div>');
-        }else  if ($_SESSION["userlevel"]== "admin") {
+        } else if ($_SESSION["userlevel"] == "admin") {
             echo ('<div id="header" align="center">');
             echo ('<a href="index.php">MyPet</a>');
-            echo ('<a href="admin.php"style="background-color:#1b383d; color:white">Products</a>');
+            echo ('<a href="foodsntreats.php">Foods & Treats</a>');
+            echo ('<a href="accessories.php">Accessories</a>');
+            echo ('<a href="cart.php"style="background-color:#1b383d; color:white" >Cart</a>');
             echo ('<a href="salesrecord.php" >Sales Record</a>');
             echo ('<a href="aboutus.php">About Us</a>');
             echo ('<a href="logoutphp.php">Log Out</a>');
-            echo ('</div>');}
-        
+            echo ('</div>');
+        }
     } ?>
     <br><br><br>
     <h1>Your Cart</h1>
     <div class="cartlist">
         <?php
-        if (isset($_SESSION["cart"])) {
+        if (isset($_SESSION["cart"]) && $_SESSION["cart"] != null) {
             $prod_id = array_column($_SESSION["cart"], "idc");
+            $prod_quantity = array_column($_SESSION["cart"], "quantity");
             foreach ($product as $prod) :
-                foreach ($prod_id as $id) :
-                    if ($prod["prod_id"] == $id) { ?>
-                        <form action="cart.php?action=remove&id=<?= $prod["prod_id"]; ?>" method="POST">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <div class="left">
-                                            <img src="<?php echo $prod["imageprod"]; ?>" alt="" width="200" height="250">
-                                        </div>
-                                        <div class="right">
-                                            <?= "Product Name : ", $prod["name"]; ?><br>
-                                            <?= "Price per item : RM", number_format($prod["price"], 2); ?><br>
-                                            <label for="quantitybuy">Quantity : </label>
-                                            <input type="number" name="quantitybuy" id="quantitybuy" min="1" max="<?= $prod["quantity"]; ?>" onchange="updateprice()">
-                                            <br><br>
-                                            <button type="submit" name="remove" id="button" value="Remove">Remove</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                        </form>
-                        <br>
+                for ($i = 0; $i < count($prod_id); $i++)
+                    if ($prod["prod_id"] == $prod_id[$i]) { ?>
+                    <form action="cart.php?action=remove&id=<?= $prod["prod_id"]; ?>" method="POST">
+                        <table>
+                            <tr>
+                                <td>
+                                    <div class="left">
+                                        <img src="<?php echo $prod["imageprod"]; ?>" alt="" width="200" height="250">
+                                    </div>
+                                    <div class="right">
+                                        <?= "Product Name : ", $prod["name"]; ?><br>
+                                        Price per item : RM<span name="prices"><?= number_format($prod["price"], 2); ?></span><br>
+                                        <label for="quantitybuy">Quantity : </label>
+                                        <input type="number" name="quantitybuy" id="quantitybuy" value="<?= $prod_quantity[$i]; ?>" min="1" max="<?= $prod["quantity"]; ?>" onchange="updateprice()">
+                                        <br><br>
+                                        <input type="text" hidden name="prod_id" value="<?= $prod["prod_id"]; ?>" />
+                                        <input type="text" hidden name="username" value="<?= $_SESSION["customer"]; ?>" />
+                                        <button type="submit" name="remove" id="button" value="Remove">Remove</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                    <br>
             <?php }
-                endforeach;
             endforeach;
-
-            
         } else {
             ?>
             <!-- <table>
                 <tr>
-                    <td>
-                        <?php
-                        echo "<h3 align=center>Cart is empty...</h3>";
-                        ?>
-                    </td>
+                    <td> -->
+            <?php
+            echo "<h3 align=center>Cart is empty...</h3>";
+            ?>
+            <!-- </td>
                 </tr>
             </table> -->
         <?php
@@ -237,8 +257,9 @@ if (isset($_POST["remove"])) {
                         <td>
                             <h4 align="center">Total Price</h4>
                             <label for="totalprice">RM</label>
+                            <span id="listquantity"></span>
                             <input type="text" id="totalprice" name="totalprice" readonly value="" required>
-                            <input type="submit" name="submit" value="Pay" id="button">
+                            <input type="submit" name="pay" value="Pay" id="button">
                         </td>
                     </tr>
                 </table>
@@ -251,6 +272,9 @@ if (isset($_POST["remove"])) {
     <div id="footer">
         <b>&copy; MyPet Sdn Bhd. All Rights Reserved (Educational Purposes)</b>
     </div>
+    <script>
+        updateprice();
+    </script>
 </body>
 
 </html>

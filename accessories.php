@@ -17,7 +17,8 @@ if (isset($_GET["idc"])) {
         } else {
             $count = count($_SESSION["cart"]);
             $item_array = array(
-                "idc" => $_GET["idc"]
+                "idc" => $_GET["idc"],
+                "quantity" => 1
             );
             $_SESSION["cart"][$count] = $item_array;
 
@@ -30,7 +31,8 @@ if (isset($_GET["idc"])) {
         }
     } else {
         $item_array = array(
-            "idc" => $_GET["idc"]
+            "idc" => $_GET["idc"],
+            "quantity" => 1
         );
 
         $_SESSION["cart"][0] = $item_array;

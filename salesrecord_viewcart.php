@@ -116,35 +116,34 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                     // Include dbConfig file
                     require_once "fx.php";
                     // Attempt select query execution
-                    $sql = "SELECT * FROM sales_record s
-                    JOIN customer cs ON cs.username=s.username;";
+                    $sql = "SELECT * FROM sales_record JOIN cart USING (salesrecord_id) JOIN customer USING (username) JOIN product USING (prod_id) WHERE salesrecord_id = " . $_GET['salesrecord_id'] . ";";
+                    echo "Sales ID: " . $_GET['salesrecord_id'] . " <br>";
                     if ($result = mysqli_query($conn, $sql)) {
                         if (mysqli_num_rows($result) > 0) {
                             echo "<table class='table table-bordered table-striped'>";
                             echo "<thead>";
                             echo "<tr>";
-                            echo "<th>Sales ID</th>";
-                            echo "<th>Customer Name</th>";
-                            echo "<th>Address</th>";
-                            echo "<th>Phone</th>";
-                            echo "<th>Total Price</th>";
-                            echo "<th>Action</th>";
+                            echo "<th>#</th>";
+                            echo "<th>Product Name</th>";
+                            echo "<th>Price</th>";
+                            echo "<th>Quantity</th>";
                             echo "</tr>";
                             echo "</thead>";
                             echo "<tbody>";
+                            $no = 0;
                             while ($row = mysqli_fetch_array($result)) {
-                                $salesrecord_id = $row['salesrecord_id'];
+                                $no++;
                                 echo "<tr>";
-                                echo "<td>" . $row['salesrecord_id'] . "</td>";
-                                echo "<td>" . $row['fullname'] . "</td>";
-                                echo "<td>" . $row['address'] . "</td>";
-                                echo "<td>" . $row['phone'] . "</td>";
-                                echo "<td>" . number_format($row['total_price'], 2) . "</td>";
-                                echo "<td><a href='salesrecord_viewcart.php?salesrecord_id=$salesrecord_id&total_price=".number_format($row['total_price'], 2)."'>View Cart</a></td>";
+                                echo "<td>" . $no . "</td>";
+                                echo "<td>" . $row['name'] . "</td>";
+                                echo "<td>RM" . number_format($row['price'], 2) . "</td>";
+                                echo "<td>" . $row['cart_quantity'] . "</td>";
                                 echo "</tr>";
                             }
                             echo "</tbody>";
                             echo "</table>";
+                            echo "Total Price: <b>RM" . $_GET['total_price']. "</b>";
+                            echo "<br><a href='salesrecord.php'>Back</a>";
                             // Free result set
                             mysqli_free_result($result);
                         } else {
