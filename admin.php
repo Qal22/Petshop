@@ -3,7 +3,7 @@ require 'fx.php';
 
 $admins = query("SELECT * FROM admin");
 $product = query("SELECT * FROM product");
-?>
+session_start();?>
 
 <!DOCTYPE html>
 <html>
@@ -84,11 +84,15 @@ $product = query("SELECT * FROM product");
 </style>
 
 <body>
-    <div id="header" align="center">
-        <a href="addprod.php">Add Product</a> |
-        <a href="index.php" onclick="return confirm('Confirm to log out?');">Log out</a>
-    </div>
-
+<?php if ($_SESSION["userlevel"]== "admin") {
+            echo ('<div id="header" align="center">');
+            echo ('<a href="index.php"style="background-color:#1b383d; color:white">MyPet</a>');
+            echo ('<a href="admin.php">Products</a>');
+            echo ('<a href="salesrecord.php" >Sales Record</a>');
+            echo ('<a href="aboutus.php">About Us</a>');
+            echo ('<a href="logoutphp.php">Log Out</a>');
+            echo ('</div>');}
+    ?>
     <br><br><br><br><br>
 
     <table border="1" align="center">

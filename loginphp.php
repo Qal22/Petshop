@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['admin'] = $username;
             $_SESSION['loggedin'] = true;
             $_SESSION['userlevel'] = "admin";
-            header("location: index.php");
+            header("location: admin.php");
             $usrlevel = $_SESSION["userlevel"];
         } else {
             echo "<script> alert('Oops! Wrong Username & Password'); </script>";
