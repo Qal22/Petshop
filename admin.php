@@ -108,7 +108,7 @@ session_start();?>
     ?>
     <br><br><br><br><br>
 
-    <table  class="table table-bordered table-striped" border="1" align="center">
+    <table border="1" align="center">
         <tr>
             <th>
                 ID

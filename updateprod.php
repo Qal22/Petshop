@@ -121,7 +121,7 @@ $product = query("SELECT * FROM product WHERE prod_id = $id")[0];
                             </li>
                         </td>
                         <td>
-                            <select name="type" id="type" style="width: 176px;">
+                            <select name="type" id="type" style="width: 170px;">
                                 <?php if($product["type"] == "foods & treats") { ?>
                                 <option value="foods & treats" selected>foods & treats</option>
                                 <option value="accessories">accessories</option>
