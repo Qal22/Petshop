@@ -174,7 +174,7 @@ $product = query("SELECT * FROM product");
                     <?php if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                         echo '  <a href="loginphp.php?idc=' . $prod['prod_id'] . '" style="size: 20px;" id="button">Add To Cart</a>';
                     } else {
-                        echo '<a href="index.php?idc=' . $prod['prod_id'] . '"style="size: 20px;" id="button">Add To Cart</a>';
+                        echo '<a href="foodsntreats.php?idc=' . $prod['prod_id'] . '"style="size: 20px;" id="button">Add To Cart</a>';
                     } ?>
                     <br><br>
                 </td>
