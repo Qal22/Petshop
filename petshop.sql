@@ -41,7 +41,7 @@ REPLACE INTO `admin` (`name`, `id`, `codeprog`, `kelas`, `email`, `pfimg`) VALUE
 CREATE TABLE IF NOT EXISTS `cart` (
   `cart_id` int(11) NOT NULL AUTO_INCREMENT,
   `salesrecord_id` int(11) NOT NULL,
-  `prod_id` int(11) NOT NULL DEFAULT '0',
+  `prod_id` int(11) NOT NULL,
   `cart_quantity` int(11) NOT NULL,
   PRIMARY KEY (`cart_id`),
   KEY `FK1_product` (`prod_id`),
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `cart` (
   CONSTRAINT `FK2_sales_record` FOREIGN KEY (`salesrecord_id`) REFERENCES `sales_record` (`salesrecord_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
 
--- Dumping data for table petshop.cart: ~2 rows (approximately)
+-- Dumping data for table petshop.cart: ~3 rows (approximately)
 /*!40000 ALTER TABLE `cart` DISABLE KEYS */;
 REPLACE INTO `cart` (`cart_id`, `salesrecord_id`, `prod_id`, `cart_quantity`) VALUES
 	(19, 44, 5, 3),
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `customer` (
   PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table petshop.customer: ~2 rows (approximately)
+-- Dumping data for table petshop.customer: ~1 rows (approximately)
 /*!40000 ALTER TABLE `customer` DISABLE KEYS */;
 REPLACE INTO `customer` (`username`, `fullname`, `password`, `address`, `phone`) VALUES
 	('aqil', 'Aqil Khairy', 'e10adc3949ba59abbe56e057f20f883e', 'BUKIT KAPAR', '60189630692');
