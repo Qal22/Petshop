@@ -1,6 +1,56 @@
 <?php
 require 'fx.php';
 
+session_start();
+
+if (isset($_GET["idc"]))
+{
+    if ($_SESSION["cart"])
+    {
+        $item_array_id = array_column($_SESSION["cart"], "idc");
+
+        if (in_array($_GET["idc"], $item_array_id))
+        {
+            echo "
+            <script>
+                alert('Product is already added in the cart...');
+                document.location.href = 'accessories.php';
+            </script>
+            ";
+        }
+        else
+        {
+            $count = count($_SESSION["cart"]);
+            $item_array = array(
+                "idc" => $_GET["idc"]
+            );
+            $_SESSION["cart"][$count] = $item_array;
+
+            echo "
+            <script>
+                alert('Added to cart...');
+                document.location.href = 'accessories.php';
+            </script>
+            ";
+        }
+    }
+    else
+    {
+        $item_array = array(
+            "idc" => $_GET["idc"]
+        );
+
+        $_SESSION["cart"][0] = $item_array;
+
+        echo "
+            <script>
+                alert('Added to cart...');
+                document.location.href = 'accessories.php';
+            </script>
+            ";
+    }
+}
+
 $product = query("SELECT * FROM product");
 ?>
 
@@ -105,7 +155,7 @@ $product = query("SELECT * FROM product");
                     ?>
                     <br>
                     <a href="buying.php?id=<?php echo $prod["prod_id"]; ?>" style="size: 20px;" id="button">Details</a>
-                    <a href="buying.php?id=<?php echo $prod["prod_id"]; ?>" style="size: 20px;" id="button">Add To Cart</a>
+                    <a href="accessories.php?idc=<?php echo $prod["prod_id"]; ?>" style="size: 20px;" id="button">Add To Cart</a>
                     <br><br>
                 </td>
             <?php $counter++;

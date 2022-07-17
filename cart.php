@@ -166,7 +166,7 @@ if (isset($_POST["remove"])) {
             endforeach;
         } else {
             ?>
-            <table>
+            <!-- <table>
                 <tr>
                     <td>
                         <?php
@@ -174,7 +174,7 @@ if (isset($_POST["remove"])) {
                         ?>
                     </td>
                 </tr>
-            </table>
+            </table> -->
         <?php
         }
         ?>
