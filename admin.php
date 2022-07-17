@@ -51,10 +51,23 @@ session_start();?>
         text-align: center;
     }
 
-    button {
+    #button {
         background-color: #7DA2A9;
         border: none;
         color: black;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
+
+    #delete {
+        background-color: #D11A2A ;
+        border: none;
+        color: white;
         padding: 15px 32px;
         text-align: center;
         text-decoration: none;
@@ -125,8 +138,8 @@ session_start();?>
                     <?php echo $prod["prod_id"]; ?>
                 </td>
                 <td>
-                    <a href="updateprod.php?id=<?php echo $prod["prod_id"]; ?>">Update</a> |
-                    <a href="deleteprod.php?id=<?php echo $prod["prod_id"]; ?>" onclick="return confirm('Confirm to delete the product?');">Delete</a>
+                    <a href="updateprod.php?id=<?php echo $prod["prod_id"]; ?>."style="size: 20px;" id="button">Update</a> 
+                    <a href="deleteprod.php?id=<?php echo $prod["prod_id"];?>."style="size: 20px;" id="delete". onclick="return confirm('Confirm to delete the product?');">Delete</a>
                 </td>
                 <td>
                     <img src="<?php echo $prod["imageprod"]; ?>" alt="" width="250" height="300">
