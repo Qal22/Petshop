@@ -2,24 +2,18 @@
 require 'fx.php';
 
 session_start();
-
-if (isset($_GET["idc"]))
-{
-    if ($_SESSION["cart"])
-    {
+if (isset($_GET["idc"])) {
+    if ($_SESSION["cart"]) {
         $item_array_id = array_column($_SESSION["cart"], "idc");
 
-        if (in_array($_GET["idc"], $item_array_id))
-        {
+        if (in_array($_GET["idc"], $item_array_id)) {
             echo "
             <script>
                 alert('Product is already added in the cart...');
                 document.location.href = 'index.php';
             </script>
             ";
-        }
-        else
-        {
+        } else {
             $count = count($_SESSION["cart"]);
             $item_array = array(
                 "idc" => $_GET["idc"]
@@ -33,9 +27,7 @@ if (isset($_GET["idc"]))
             </script>
             ";
         }
-    }
-    else
-    {
+    } else {
         $item_array = array(
             "idc" => $_GET["idc"]
         );
@@ -185,14 +177,36 @@ if (isset($_POST["search"])) {
 </style>
 
 <body>
-    <div id="header" align="center">
-        <a href="index.php" style="background-color:#1b383d; color:white">MyPet</a>
-        <a href="foodsntreats.php">Foods & Treats</a>
-        <a href="accessories.php">Accessories</a>
-        <a href="cart.php">Cart</a>
-        <a href="aboutus.php">About Us</a>
-        <a href="loginphp.php">Log in</a>
-    </div>
+    <?php if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+        echo ('<div id="header" align="center">');
+        echo ('<a href="index.php"style="background-color:#1b383d; color:white">MyPet</a>');
+        echo ('<a href="foodsntreats.php">Foods & Treats</a>');
+        echo ('<a href="accessories.php">Accessories</a>');
+        echo ('<a href="cart.php">Cart</a>');
+        echo ('<a href="aboutus.php">About Us</a>');
+        echo (' <a href="loginphp.php">Log In</a>');
+        echo ('</div>');}
+     else {
+        if ($_SESSION["userlevel"] == "customer") {
+            echo ('<div id="header" align="center">');
+            echo ('<a href="index.php"style="background-color:#1b383d; color:white">MyPet</a>');
+            echo ('<a href="foodsntreats.php">Foods & Treats</a>');
+            echo ('<a href="accessories.php">Accessories</a>');
+            echo ('<a href="cart.php" >Cart</a>');
+            echo ('<a href="aboutus.php">About Us</a>');
+            echo ('<a href="logoutphp.php">Log Out</a>');
+            echo ('</div>');
+        } else if ($_SESSION["userlevel"]== "admin") {
+            echo ('<div id="header" align="center">');
+            echo ('<a href="index.php"style="background-color:#1b383d; color:white">MyPet</a>');
+            echo ('<a href="foodsntreats.php">Foods & Treats</a>');
+            echo ('<a href="accessories.php">Accessories</a>');
+            echo ('<a href="cart.php" >Cart</a>');
+            echo ('<a href="salesrecord.php" >Sales Record</a>');
+            echo ('<a href="aboutus.php">About Us</a>');
+            echo ('<a href="logoutphp.php">Log Out</a>');
+            echo ('</div>');}
+    } ?>
 
     <br><br>
 
@@ -205,13 +219,13 @@ if (isset($_POST["search"])) {
         <button type="submit" name="search" id="search">Search</button>
     </form>
 
-    <p>&nbsp;&nbsp; All prodcuts</p>
+    <p>&nbsp;&nbsp; All products</p>
 
     <div class="pagination" align="center" <?php
-        if(!$showPagination) {
-            echo 'hidden';
-        }
-    ?>>
+                                            if (!$showPagination) {
+                                                echo 'hidden';
+                                            }
+                                            ?>>
         <?php
         $pageURL = "";
         if ($page_number >= 2) {
@@ -250,7 +264,11 @@ if (isset($_POST["search"])) {
                 ?>
                 <br>
                 <a href="buying.php?id=<?php echo $prod["prod_id"]; ?>" style="size: 20px;" id="button">Details</a>
-                <a href="index.php?idc=<?php echo $prod["prod_id"]; ?>" style="size: 20px;" id="button">Add To Cart</a>
+                <?php if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+                    echo '  <a href="loginphp.php?idc=' . $prod['prod_id'] . '" style="size: 20px;" id="button">Add To Cart</a>';
+                } else {
+                    echo '<a href="index.php?idc=' . $prod['prod_id'] . '"style="size: 20px;" id="button">Add To Cart</a>';
+                } ?>
                 <br><br>
             </td>
         <?php

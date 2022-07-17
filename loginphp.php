@@ -2,64 +2,62 @@
 require 'fx.php';
 
 $username = $password = "";
-// Processing form data when form is submitted 
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    session_start(); //start a session 
-    // Validate username 
+    session_start(); 
+    
     if ($_POST["userlevel"] == "customer") {
 
         $username = trim($_POST["cust_username"]);
         $password = md5(trim($_POST["cust_password"]));
-        // Prepare a select statement 
+         
 
         $sql = "SELECT * FROM customer WHERE username = '$username'
         and password = '$password' ";
 
-        $result = mysqli_query($conn, $sql); //execute SQL statement 
+        $result = mysqli_query($conn, $sql); 
 
         if (!$result)
             die("Database access failed: " . mysqli_connect_error());
 
-        // get number of rows returned 
+        
         $rows = mysqli_num_rows($result);
-        if ($rows) { //correct username & password
+        if ($rows) {
             $row = mysqli_fetch_array($result);
             $_SESSION['customer'] = $username;
             $_SESSION['loggedin'] = true;
-            $_SESSION['userlevel'] = $row['userlevel'];
-            header("location: index.php");
+            $_SESSION['userlevel'] = "customer";
             $usrlevel = $_SESSION["userlevel"];
+            header("location: index.php");
         } else {
             echo "<script> alert('Oops! Wrong Username & Password'); </script>";
         }
-    } else {
+    } elseif($_POST["userlevel"] == "admin")  {
 
         $username = $_POST["admin_id"];
         $password = trim($_POST["admin_password"]);
-        // Prepare a select statement 
-
         $sql = "SELECT * FROM admin WHERE name = '$username'
         and id = '$password' ";
 
-        $result = mysqli_query($conn, $sql); //execute SQL statement 
+        $result = mysqli_query($conn, $sql); 
 
 
         if (!$result)
             die("Database access failed: " . mysqli_connect_error());
-        // get number of rows returned 
+        
         $rows = mysqli_num_rows($result);
-        if ($rows) { //correct username & password
+        if ($rows) { 
             $row = mysqli_fetch_array($result);
             $_SESSION['admin'] = $username;
             $_SESSION['loggedin'] = true;
-            $_SESSION['userlevel'] = $row['userlevel'];
+            $_SESSION['userlevel'] = "admin";
             header("location: index.php");
             $usrlevel = $_SESSION["userlevel"];
         } else {
             echo "<script> alert('Oops! Wrong Username & Password'); </script>";
         }
-    }
-    // Close statement 
+    }else{echo "<script> alert('Oops! There is something wrong. Please try again later'); </script>"; header("location: loginphp.php");}
+    
     mysqli_close($conn);
 }
 ?>

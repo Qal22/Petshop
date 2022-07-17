@@ -2,9 +2,14 @@
 
 require 'fx.php';
 
-session_start();
+session_start(); 
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+    header("location: loginphp.php");
+    exit;
+    $_SESSION["userlevel"];
 
-// $db = new CreateDB();
+}
+
 $getQuery = "SELECT * FROM product";
 $product = mysqli_query($conn, $getQuery);
 
@@ -124,14 +129,37 @@ if (isset($_POST["remove"])) {
 </style>
 
 <body>
-    <div id="header" align="center">
-        <a href="index.php">MyPet</a>
-        <a href="foodsntreats.php">Foods & Treats</a>
-        <a href="accessories.php">Accessories</a>
-        <a href="cart.php" style="background-color:#1b383d; color:white">Cart</a>
-        <a href="aboutus.php">About Us</a>
-        <a href="loginphp.php">Log in</a>
-    </div>
+<?php if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+        echo ('<div id="header" align="center">');
+        echo ('<a href="index.php" >MyPet</a>');
+        echo ('<a href="foodsntreats.php">Foods & Treats</a>');
+        echo ('<a href="accessories.php">Accessories</a>');
+        echo ('<a href="cart.php"style="background-color:#1b383d; color:white">Cart</a>');
+        echo ('<a href="aboutus.php">About Us</a>');
+        echo (' <a href="loginphp.php">Log in</a>');
+        echo ('</div>');
+    } else {
+        if ($_SESSION["userlevel"] == "customer") {
+            echo ('<div id="header" align="center">');
+            echo ('<a href="index.php">MyPet</a>');
+            echo ('<a href="foodsntreats.php">Foods & Treats</a>');
+            echo ('<a href="accessories.php">Accessories</a>');
+            echo ('<a href="cart.php" style="background-color:#1b383d; color:white">Cart</a>');
+            echo ('<a href="aboutus.php">About Us</a>');
+            echo ('<a href="logoutphp.php">Log Out</a>');
+            echo ('</div>');
+        } else if ($_SESSION["userlevel"] == "admin") {
+            echo ('<div id="header" align="center">');
+            echo ('<a href="index.php">MyPet</a>');
+            echo ('<a href="foodsntreats.php">Foods & Treats</a>');
+            echo ('<a href="accessories.php">Accessories</a>');
+            echo ('<a href="cart.php"style="background-color:#1b383d; color:white" >Cart</a>');
+            echo ('<a href="salesrecord.php" >Sales Record</a>');
+            echo ('<a href="aboutus.php">About Us</a>');
+            echo ('<a href="logoutphp.php">Log Out</a>');
+            echo ('</div>');
+        }
+    } ?>
     <br><br><br>
     <h1>Your Cart</h1>
     <div class="cartlist">
@@ -164,6 +192,8 @@ if (isset($_POST["remove"])) {
             <?php }
                 endforeach;
             endforeach;
+
+            
         } else {
             ?>
             <!-- <table>

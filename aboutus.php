@@ -1,6 +1,6 @@
 <?php
 require 'fx.php';
-
+session_start();
 $admins = query("SELECT * FROM admin");
 ?>
 
@@ -69,13 +69,36 @@ $admins = query("SELECT * FROM admin");
 </style>
 
 <body>
-    <div id="header" align="center">
-        <a href="index.php">MyPet</a>
-        <a href="foodsntreats.php">Foods & Treats</a>
-        <a href="accessories.php">Accessories</a>
-        <a href="aboutus.php" style="background-color:#1b383d; color:white">About Us</a>
-        <a href="loginphp.php">Log in</a>
-    </div>
+<?php if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+        echo ('<div id="header" align="center">');
+        echo ('<a href="index.php" >MyPet</a>');
+        echo ('<a href="foodsntreats.php">Foods & Treats</a>');
+        echo ('<a href="accessories.php">Accessories</a>');
+        echo ('<a href="cart.php">Cart</a>');
+        echo ('<a href="aboutus.php"style="background-color:#1b383d; color:white">About Us</a>');
+        echo (' <a href="loginphp.php">Log In</a>');
+        echo ('</div>');}
+     else {
+        if ($_SESSION["userlevel"] == "customer") {
+            echo ('<div id="header" align="center">');
+            echo ('<a href="index.php">MyPet</a>');
+            echo ('<a href="foodsntreats.php">Foods & Treats</a>');
+            echo ('<a href="accessories.php">Accessories</a>');
+            echo ('<a href="cart.php" >Cart</a>');
+            echo ('<a href="aboutus.php"style="background-color:#1b383d; color:white">About Us</a>');
+            echo ('<a href="logoutphp.php">Log Out</a>');
+            echo ('</div>');
+        } else if ($_SESSION["userlevel"]== "admin") {
+            echo ('<div id="header" align="center">');
+            echo ('<a href="index.php">MyPet</a>');
+            echo ('<a href="foodsntreats.php">Foods & Treats</a>');
+            echo ('<a href="accessories.php">Accessories</a>');
+            echo ('<a href="cart.php" >Cart</a>');
+            echo ('<a href="salesrecord.php" >Sales Record</a>');
+            echo ('<a href="aboutus.php"style="background-color:#1b383d; color:white">About Us</a>');
+            echo ('<a href="logoutphp.php">Log Out</a>');
+            echo ('</div>');}
+    } ?>
 
     <br><br><br>
 

@@ -1,87 +1,87 @@
 <?php
-    require 'fx.php';
+require 'fx.php';
 
-    $id = $_GET["id"];
-    
-    $product = query("SELECT * FROM product WHERE prod_id = $id")[0];
+$id = $_GET["id"];
 
-    if (isset($_POST["submit"]))
-    {
-        if (buyprod($_POST) > 0)
-        {
-            echo "
+$prod = query("SELECT * FROM product WHERE prod_id = $id")[0];
+
+if (isset($_POST["submit"])) {
+    if (buyprod($_POST) > 0) {
+        echo "
                 <script>
                     alert('Thank You!');
                     document.location.href = 'index.php';
                 </script>
             ";
-        }
-        else
-        {
-            echo "
+    } else {
+        echo "
                 <script>
                     alert('Failed');
                 </script>
             ";
-        }
     }
+}
 ?>
 
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Product Details</title>
-        <style>
+
+<head>
+    <title>Product Details</title>
+    <style>
         body {
-                margin: 0;
-                font-family:monospace;
-                background-color: #E6E2DD;
-                font-size: 20px;
+            margin: 0;
+            font-family: monospace;
+            background-color: #E6E2DD;
+            font-size: 20px;
         }
 
         #header {
-                top: 0;
-                width: 100%;
-                position: fixed;
-                overflow: hidden;
-                background-color: #7DA2A9;
-                padding: 20px 10px;
+            top: 0;
+            width: 100%;
+            position: fixed;
+            overflow: hidden;
+            background-color: #7DA2A9;
+            padding: 20px 10px;
         }
 
-        #header a{
-                color: black;
-                padding: 12px;
-                font-size: 18px;
-                font-weight: bold;
-                text-decoration: none;
-                line-height: 25px;
-                border-radius: 4px; 
+        #header a {
+            color: black;
+            padding: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+            line-height: 25px;
+            border-radius: 4px;
         }
 
         #header a:hover {
-                background-color: #ddd;
-                color: black;
+            background-color: #ddd;
+            color: black;
         }
 
         #footer {
-                overflow: hidden;
-                padding: 16px 10px;
-                background-color: #7DA2A9;
-                color: black;
-                text-align: center;
+            overflow: hidden;
+            padding: 20px 10px;
+            background-color: #7DA2A9;
+            color: black;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
         }
 
-        button {
-                background-color: #7DA2A9;
-                border: none;
-                color: black;
-                padding: 15px 32px;
-                text-align: center;
-                text-decoration: none;
-                display: inline-block;
-                font-size: 16px;
-                margin: 4px 2px;
-                cursor: pointer;
+        #button {
+            background-color: #7DA2A9;
+            border: none;
+            color: black;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
         }
 
         h1 {
@@ -93,50 +93,54 @@
             margin-right: auto;
         }
     </style>
-    <script>
-        function calculate()
-        {
+    <!-- <script>
+        function calculate() {
             var price = document.getElementById("price").value;
             var quantitybuy = document.getElementById("quantitybuy").value;
             var total = price * quantitybuy;
             var totprice = total.toFixed(2);
             alert("The total price is RM" + totprice);
         }
-    </script>
-    </head>
-    <body>
-        <div id="header" align="center">
-            <a href="index.php">Cancel</a>
-        </div>
+    </script> -->
+</head>
 
-        <br><br><br><br><br>
+<body>
+    <div id="header" align="center">
+        <a href="index.php">Cancel</a>
+    </div>
 
-        <form action="" method="post">
+    <br><br><br><br><br>
+
+    <form action="" method="post">
         <h1>Product Details</h1>
-        <input type="hidden" name="prod_id" value="<?= $product["prod_id"]; ?>">
-        <input type="hidden" name="price" id="price" value="<?= $product["price"]; ?>">
-        <input type="hidden" name="quantity" id="quantity" value="<?= $product["quantity"]; ?>">
+        <input type="hidden" name="prod_id" value="<?= $prod["prod_id"]; ?>">
+        <input type="hidden" name="price" id="price" value="<?= $prod["price"]; ?>">
+        <input type="hidden" name="quantity" id="quantity" value="<?= $prod["quantity"]; ?>">
         <table>
             <tr>
                 <td rowspan="3">
-                    <img src="<?= $product["imageprod"]; ?>" alt="" width="200" height="200">
+                    <img src="<?= $prod["imageprod"]; ?>" alt="" width="200" height="200">
                 </td>
                 <td>
-                    <?= "Product Name : ",$product["name"]; ?>
+                    <?= "Product Name : ", $prod["name"]; ?>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <?= "Price per item : RM",number_format($product["price"],2); ?>
+                    <?= "Price per item : RM", number_format($prod["price"], 2); ?>
                 </td>
             </tr>
             <tr>
                 <td>
                     <label for="quantitybuy">Quantity : </label>
-                    <input type="number" name="quantitybuy" id="quantitybuy" min="1" max="<?= $product["quantity"]; ?>" required>
+                    <input type="number" name="quantitybuy" id="quantitybuy" min="1" max="<?= $prod["quantity"]; ?>" required>
                 </td>
                 <td>
-                    <button type="submit" name="submit" onclick="calculate()">Add To Cart</button>
+                    <?php if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+                        echo '<a href="loginphp.php?idc=' . $prod['prod_id'] . '" style="size: 20px;" id="button">Add To Cart</a>';
+                    } else {
+                        echo '<a href="index.php?idc=' . $prod['prod_id'] . '"style="size: 20px;" id="button">Add To Cart</a>';
+                    } ?>
                 </td>
             </tr>
         </table>
@@ -179,12 +183,13 @@
                 </tr>
             </ul>
         </table> -->
-        </form>
+    </form>
 
-        <br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br>
 
-        <div id="footer">
-            <b>&copy; MyPet Sdn Bhd. All Rights Reserved (Educational Purposes)</b> 
-        </div>
-    </body>
+    <div id="footer">
+        <b>&copy; MyPet Sdn Bhd. All Rights Reserved (Educational Purposes)</b>
+    </div>
+</body>
+
 </html>

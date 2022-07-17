@@ -4,19 +4,19 @@ require 'fx.php';
 $username = $password = $confirm_password = "";
 $username_err = $password_err = $confirm_password_err = "";
 
-// Processing form data when form is submitted 
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Validate username 
+
     if (empty(trim($_POST["cust_username"]))) {
         $username_err = "Please enter a username.";
     } else {
         // Prepare a select statement 
         $sql = "SELECT fullname FROM customers WHERE username = ?";
-        if ($stmt = mysqli_prepare($conn, $sql)) { // Bind variables to the prepared statement as parameters 
+        if ($stmt = mysqli_prepare($conn, $sql)) {
             mysqli_stmt_bind_param($stmt, "s", $param_username);
-            // set parameters 
+            
             $param_username = trim($_POST["cust_username"]);
-            // Attempt to execute the prepared statement
+            
             if (mysqli_stmt_execute($stmt)) {
                 mysqli_stmt_store_result($stmt);
                 if (mysqli_stmt_num_rows($stmt) == 1) {
@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $password = trim($_POST["cust_password"]);
     }
 
-    // validate confirm password 
+  
     if (empty(trim($_POST["cust_password2"]))) {
         $confirm_password_err = "Please confirm password.";
     } else {
@@ -48,29 +48,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $confirm_password_err = "Password did not match.";
         }
     }
-    // Check input errors before inserting in database 
-    if (empty($username_err) && empty($password_err) && empty($confirm_password_err)) { // Prepare an insert statement 
+   
+    if (empty($username_err) && empty($password_err) && empty($confirm_password_err)) { 
         $sql = "INSERT INTO customer (username, fullname, password, address, phone) VALUES (?, ?, ?, ?, ?) ";
-        if ($stmt = mysqli_prepare($conn, $sql)) { // Bind variables to the prepared statement as parameters 
+        if ($stmt = mysqli_prepare($conn, $sql)) { 
             mysqli_stmt_bind_param($stmt, "ssssd", $param_username,  $param_fullname, $param_password, $param_address, $param_phone);
-            // set parameters 
+           
             $param_username = $_POST["cust_username"];
             $param_fullname = $_POST["cust_fullname"];
             $param_password = md5($password);
             $param_address = $_POST["cust_address"];
             $param_phone = $_POST["cust_phone"];
 
-            // Attempt to execute the prepared statement 
+           
             if (mysqli_stmt_execute($stmt)) {
                 header("location: loginphp.php");
                 echo "<script> alert('Registration is successful!'); </script>";
-            } // Redirect to login page
+            } 
             else {
                 echo "Something went wrong. Please try again later.";
             }
-        } // Close statement 
+        } 
         mysqli_stmt_close($stmt);
-    } // Close connection 
+    } 
     mysqli_close($conn);
 }
 
