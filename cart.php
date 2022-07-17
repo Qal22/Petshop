@@ -46,8 +46,7 @@ if (isset($_POST["remove"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyPet</title>
     <script>
-        function updateprice()
-        {
+        function updateprice() {
             var x = document.getElementById("quantitybuy").value;
             var elem = document.getElementById("totalprice");
             elem.value = x;
@@ -204,16 +203,18 @@ if (isset($_POST["remove"])) {
         <?php
         if (isset($_SESSION["cart"])) {
         ?>
-            <table>
-                <tr>
-                    <td>
-                        <h4 align="center">Total Price</h4>
-                        <label for="totalprice">RM</label>
-                        <input type="text" id="totalprice" name="totalprice" readonly value="">
-                        <input type="submit" name="submit" value="Pay" id="button">
-                    </td>
-                </tr>
-            </table>
+            <form action="" method="POST">
+                <table>
+                    <tr>
+                        <td>
+                            <h4 align="center">Total Price</h4>
+                            <label for="totalprice">RM</label>
+                            <input type="text" id="totalprice" name="totalprice" readonly value="" required>
+                            <input type="submit" name="submit" value="Pay" id="button">
+                        </td>
+                    </tr>
+                </table>
+            </form>
         <?php
         } else {
         }
