@@ -85,13 +85,13 @@ session_start();?>
 
     td {
         text-align: center;
-        border: 7px solid #7DA2A9;
+        border: 3px solid #7DA2A9;
         border-collapse: collapse;
     }
 
     th {
         text-align: center;
-        border: 7px solid #7DA2A9;
+        border: 3px solid #7DA2A9;
         border-collapse: collapse;
     }
 </style>
@@ -107,7 +107,11 @@ session_start();?>
             echo ('</div>');}
     ?>
     <br><br><br><br><br>
-
+    <div>
+    <h1>&nbsp;&nbsp; Product List
+        <a href="addprod.php"
+        style="size: 20px;float:right;margin-right:5%;background-color:#1b383d; color:white" id="button">Add New Product</a></h1>
+</div>
     <table border="1" align="center">
         <tr>
             <th>

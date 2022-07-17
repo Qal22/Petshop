@@ -56,15 +56,15 @@ $admins = query("SELECT * FROM admin");
     table {
         border: 7px solid #7DA2A9;
         border-collapse: collapse;
-        width: 90%;
-        margin-left: 40px;
+        width: 80%;
+        margin: auto;
         font-size: 16px;
     }
 
     td {
         text-align: center;
         border-collapse: collapse;
-        border: 7px solid #7DA2A9;
+        border: 5px solid #7DA2A9;
     }
 </style>
 
@@ -131,7 +131,7 @@ $admins = query("SELECT * FROM admin");
                 <br>
                 <img src="<?php echo $admin["pfimg"]; ?>" alt="" width="150" height="175">
                 <br><br>
-                <table border="1" style="margin-left: 26px;">
+                <table border="1" style="margin: auto;">
                     <tr>
                         <td>
                             Name :
