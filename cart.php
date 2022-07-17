@@ -17,6 +17,18 @@ if (isset($_POST["remove"])) {
     if ($_GET["action"] == "remove") {
         foreach ($_SESSION["cart"] as $key => $value) {
             if ($value["idc"] == $_GET["id"]) {
+
+                $prod_id = array_column($_SESSION["cart"], "idc");
+                if ($prod_id == 0) {
+                    unset($_SESSION["cart"]);
+                    echo "
+                    <script>
+                        alert('Product has been removed...');
+                        document.location.href = 'cart.php';
+                    </script>
+                    ";
+                }
+
                 unset($_SESSION["cart"][$key]);
                 echo "
                 <script>
@@ -38,6 +50,13 @@ if (isset($_POST["remove"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyPet</title>
+    <script>
+        function updateprice() {
+            var x = document.getElementById("quantitybuy").value;
+            var elem = document.getElementById("totalprice");
+            elem.value = x;
+        }
+    </script>
 </head>
 <style>
     body {
@@ -108,7 +127,8 @@ if (isset($_POST["remove"])) {
 
     .summary {
         float: right;
-        width: 40%;
+        width: 30%;
+        margin-right: 50px;
     }
 
     table {
@@ -180,7 +200,7 @@ if (isset($_POST["remove"])) {
                                             <?= "Product Name : ", $prod["name"]; ?><br>
                                             <?= "Price per item : RM", number_format($prod["price"], 2); ?><br>
                                             <label for="quantitybuy">Quantity : </label>
-                                            <input type="number" name="quantitybuy" id="quantitybuy" min="1" max="<?= $prod["quantity"]; ?>">
+                                            <input type="number" name="quantitybuy" id="quantitybuy" min="1" max="<?= $prod["quantity"]; ?>" onchange="updateprice()">
                                             <br><br>
                                             <button type="submit" name="remove" id="button" value="Remove">Remove</button>
                                         </div>
@@ -209,9 +229,27 @@ if (isset($_POST["remove"])) {
         }
         ?>
     </div>
-    <!-- <div class="summary">
-        <h4>Order Summary</h4>
-    </div> -->
+    <div class="summary">
+        <?php
+        if (isset($_SESSION["cart"])) {
+        ?>
+            <form action="" method="POST">
+                <table>
+                    <tr>
+                        <td>
+                            <h4 align="center">Total Price</h4>
+                            <label for="totalprice">RM</label>
+                            <input type="text" id="totalprice" name="totalprice" readonly value="" required>
+                            <input type="submit" name="submit" value="Pay" id="button">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        <?php
+        } else {
+        }
+        ?>
+    </div>
     <div id="footer">
         <b>&copy; MyPet Sdn Bhd. All Rights Reserved (Educational Purposes)</b>
     </div>
