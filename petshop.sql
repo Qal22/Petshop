@@ -37,42 +37,6 @@ REPLACE INTO `admin` (`name`, `id`, `codeprog`, `kelas`, `email`, `pfimg`) VALUE
 	('Tuan Ahmad Hakimi Bin Tuan Abdul Aziz', 2021888222, 'CS230', 'T5CS2304B1', '2021888222@student.uitm.edu.my', 'hakimi.png');
 /*!40000 ALTER TABLE `admin` ENABLE KEYS */;
 
--- Dumping structure for table petshop.cart
-CREATE TABLE IF NOT EXISTS `cart` (
-  `cart_id` int(11) NOT NULL AUTO_INCREMENT,
-  `salesrecord_id` int(11) NOT NULL,
-  `prod_id` int(11) NOT NULL,
-  `cart_quantity` int(11) NOT NULL,
-  PRIMARY KEY (`cart_id`),
-  KEY `FK1_product` (`prod_id`),
-  KEY `FK2_sales_record` (`salesrecord_id`),
-  CONSTRAINT `FK1_product` FOREIGN KEY (`prod_id`) REFERENCES `product` (`prod_id`),
-  CONSTRAINT `FK2_sales_record` FOREIGN KEY (`salesrecord_id`) REFERENCES `sales_record` (`salesrecord_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
-
--- Dumping data for table petshop.cart: ~3 rows (approximately)
-/*!40000 ALTER TABLE `cart` DISABLE KEYS */;
-REPLACE INTO `cart` (`cart_id`, `salesrecord_id`, `prod_id`, `cart_quantity`) VALUES
-	(19, 44, 5, 3),
-	(20, 44, 7, 2),
-	(21, 45, 27, 1);
-/*!40000 ALTER TABLE `cart` ENABLE KEYS */;
-
--- Dumping structure for table petshop.customer
-CREATE TABLE IF NOT EXISTS `customer` (
-  `username` varchar(50) NOT NULL,
-  `fullname` varchar(50) NOT NULL,
-  `password` varchar(100) NOT NULL,
-  `address` varchar(100) NOT NULL,
-  `phone` varchar(50) NOT NULL,
-  PRIMARY KEY (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- Dumping data for table petshop.customer: ~1 rows (approximately)
-/*!40000 ALTER TABLE `customer` DISABLE KEYS */;
-REPLACE INTO `customer` (`username`, `fullname`, `password`, `address`, `phone`) VALUES
-	('aqil', 'Aqil Khairy', 'e10adc3949ba59abbe56e057f20f883e', 'BUKIT KAPAR', '60189630692');
-/*!40000 ALTER TABLE `customer` ENABLE KEYS */;
 
 -- Dumping structure for table petshop.product
 CREATE TABLE IF NOT EXISTS `product` (
@@ -106,6 +70,23 @@ REPLACE INTO `product` (`name`, `prod_id`, `type`, `quantity`, `price`, `imagepr
 	('Set Of Aquarium', 33, 'accessories', 50, 98, '600ff5291127c.png');
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 
+-- Dumping structure for table petshop.customer
+CREATE TABLE IF NOT EXISTS `customer` (
+  `username` varchar(50) NOT NULL,
+  `fullname` varchar(50) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `address` varchar(100) NOT NULL,
+  `phone` varchar(50) NOT NULL,
+  PRIMARY KEY (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Dumping data for table petshop.customer: ~1 rows (approximately)
+/*!40000 ALTER TABLE `customer` DISABLE KEYS */;
+REPLACE INTO `customer` (`username`, `fullname`, `password`, `address`, `phone`) VALUES
+	('aqil', 'Aqil Khairy', 'e10adc3949ba59abbe56e057f20f883e', 'BUKIT KAPAR', '60189630692');
+/*!40000 ALTER TABLE `customer` ENABLE KEYS */;
+
+
 -- Dumping structure for table petshop.sales_record
 CREATE TABLE IF NOT EXISTS `sales_record` (
   `salesrecord_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -123,6 +104,27 @@ REPLACE INTO `sales_record` (`salesrecord_id`, `username`, `date_created`, `tota
 	(44, 'aqil', '2022-07-18 01:31:34', 51.5),
 	(45, 'aqil', '2022-07-18 01:32:32', 29.7);
 /*!40000 ALTER TABLE `sales_record` ENABLE KEYS */;
+
+-- Dumping structure for table petshop.cart
+CREATE TABLE IF NOT EXISTS `cart` (
+  `cart_id` int(11) NOT NULL AUTO_INCREMENT,
+  `salesrecord_id` int(11) NOT NULL,
+  `prod_id` int(11) NOT NULL,
+  `cart_quantity` int(11) NOT NULL,
+  PRIMARY KEY (`cart_id`),
+  KEY `FK1_product` (`prod_id`),
+  KEY `FK2_sales_record` (`salesrecord_id`),
+  CONSTRAINT `FK1_product` FOREIGN KEY (`prod_id`) REFERENCES `product` (`prod_id`),
+  CONSTRAINT `FK2_sales_record` FOREIGN KEY (`salesrecord_id`) REFERENCES `sales_record` (`salesrecord_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table petshop.cart: ~3 rows (approximately)
+/*!40000 ALTER TABLE `cart` DISABLE KEYS */;
+REPLACE INTO `cart` (`cart_id`, `salesrecord_id`, `prod_id`, `cart_quantity`) VALUES
+	(19, 44, 5, 3),
+	(20, 44, 7, 2),
+	(21, 45, 27, 1);
+/*!40000 ALTER TABLE `cart` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
