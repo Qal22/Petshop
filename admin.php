@@ -108,6 +108,8 @@ session_start();?>
     ?>
     <br><br><br><br><br>
 
+    <h1>&nbsp;&nbsp; Product List</h1>
+
     <table border="1" align="center">
         <tr>
             <th>
