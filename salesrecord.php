@@ -92,7 +92,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
             echo ('<a href="accessories.php">Accessories</a>');
             echo ('<a href="cart.php" >Cart</a>');
             echo ('<a href="aboutus.php">About Us</a>');
-            echo ('<a href="loginphp.php">Log In</a>');
+            echo ('<a href="logoutphp.php">Log Out</a>');
             echo ('</div>');
         } else if ($_SESSION["userlevel"]== "admin") {
             echo ('<div id="header" align="center">');
@@ -102,7 +102,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
             echo ('<a href="cart.php" >Cart</a>');
             echo ('<a href="salesrecord.php"style="background-color:#1b383d; color:white" >Sales Record</a>');
             echo ('<a href="aboutus.php">About Us</a>');
-            echo ('<a href="loginphp.php">Log In</a>');
+            echo ('<a href="logoutphp.php">Log Out</a>');
             echo ('</div>');}
     } ?>
     <br><br><br>
