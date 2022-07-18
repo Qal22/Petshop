@@ -14,9 +14,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql = "SELECT fullname FROM customer WHERE username = ?";
         if ($stmt = mysqli_prepare($conn, $sql)) {
             mysqli_stmt_bind_param($stmt, "s", $param_username);
-            
+
             $param_username = trim($_POST["cust_username"]);
-            
+
             if (mysqli_stmt_execute($stmt)) {
                 mysqli_stmt_store_result($stmt);
                 if (mysqli_stmt_num_rows($stmt) == 1) {
@@ -25,7 +25,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $username = trim($_POST["cust_username"]);
                 }
             } else {
-                echo "Oops! Something went wrong. Please try again later.";
+                echo "<script> 
+                alert('Oops! Something went wrong. Please try again later.');  </script>";
             }
         }
         mysqli_stmt_close($stmt);
@@ -39,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $password = trim($_POST["cust_password"]);
     }
 
-  
+
     if (empty(trim($_POST["cust_password2"]))) {
         $confirm_password_err = "Please confirm password.";
     } else {
@@ -48,33 +49,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $confirm_password_err = "Password did not match.";
         }
     }
-   
-    if (empty($username_err) && empty($password_err) && empty($confirm_password_err)) { 
+
+    if (empty($username_err) && empty($password_err) && empty($confirm_password_err)) {
         $sql = "INSERT INTO customer (username, fullname, password, address, phone) VALUES (?, ?, ?, ?, ?) ";
-        if ($stmt = mysqli_prepare($conn, $sql)) { 
+        if ($stmt = mysqli_prepare($conn, $sql)) {
             mysqli_stmt_bind_param($stmt, "ssssd", $param_username,  $param_fullname, $param_password, $param_address, $param_phone);
-           
+
             $param_username = $_POST["cust_username"];
             $param_fullname = $_POST["cust_fullname"];
             $param_password = md5($password);
             $param_address = $_POST["cust_address"];
             $param_phone = $_POST["cust_phone"];
 
-           
+
             if (mysqli_stmt_execute($stmt)) {
                 echo "
                 <script> 
                     alert('Registration is successful!');
                     document.location.href = 'loginphp.php'; 
                 </script>";
-                // header("location: loginphp.php");
-            } 
-            else {
-                echo "Something went wrong. Please try again later.";
+            } else {
+                echo "<script>alert('Something went wrong. Please try again later.');</script>";
             }
-        } 
+        }
         mysqli_stmt_close($stmt);
-    } 
+    }
     mysqli_close($conn);
 }
 
