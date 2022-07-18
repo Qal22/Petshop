@@ -234,15 +234,9 @@ if (isset($_POST["pay"])) {
             endforeach;
         } else {
             ?>
-            <!-- <table>
-                <tr>
-                    <td> -->
             <?php
             echo "<h3 align=center>Cart is empty...</h3>";
             ?>
-            <!-- </td>
-                </tr>
-            </table> -->
         <?php
         }
         ?>
