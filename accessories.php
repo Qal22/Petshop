@@ -142,7 +142,6 @@ $product = query("SELECT * FROM product");
             echo ('</div>');
         } else if ($_SESSION["userlevel"]== "admin") {
             echo ('<div id="header" align="center">');
-            echo ('<a href="index.php">MyPet</a>');
             echo ('<a href="admin.php"style="background-color:#1b383d; color:white">Products</a>');
             echo ('<a href="salesrecord.php" >Sales Record</a>');
             echo ('<a href="aboutus.php">About Us</a>');

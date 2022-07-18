@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $username_err = "Please enter a username.";
     } else {
         // Prepare a select statement 
-        $sql = "SELECT fullname FROM customers WHERE username = ?";
+        $sql = "SELECT fullname FROM customer WHERE username = ?";
         if ($stmt = mysqli_prepare($conn, $sql)) {
             mysqli_stmt_bind_param($stmt, "s", $param_username);
             
@@ -62,8 +62,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
            
             if (mysqli_stmt_execute($stmt)) {
-                header("location: loginphp.php");
-                echo "<script> alert('Registration is successful!'); </script>";
+                echo "
+                <script> 
+                    alert('Registration is successful!');
+                    document.location.href = 'loginphp.php'; 
+                </script>";
+                // header("location: loginphp.php");
             } 
             else {
                 echo "Something went wrong. Please try again later.";

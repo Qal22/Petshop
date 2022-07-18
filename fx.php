@@ -180,9 +180,15 @@ function addsales($data)
         for ($i = 0; $i < count($prod_id); $i++) {
             if ($prod["prod_id"] == $prod_id[$i]) {
                 $query = "INSERT INTO cart (salesrecord_id, prod_id, cart_quantity) VALUES ($salesrecord_id, $prod_id[$i], $quantity[$no]); ";
+                $minusquantity = $quantity[$no];
+
                 $total += ((float)$prod["price"]*(int)$quantity[$no]);
                 $no++;
                 mysqli_query($conn, $query);
+
+                
+                $query3 = "UPDATE product SET quantity = quantity - " . $minusquantity . " WHERE prod_id = $prod_id[$i]";
+                mysqli_query($conn, $query3);
             }
         }
     endforeach;

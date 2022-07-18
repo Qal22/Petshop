@@ -90,7 +90,6 @@ $admins = query("SELECT * FROM admin");
             echo ('</div>');
         } else  if ($_SESSION["userlevel"]== "admin") {
             echo ('<div id="header" align="center">');
-            echo ('<a href="index.php">MyPet</a>');
             echo ('<a href="admin.php">Products</a>');
             echo ('<a href="salesrecord.php" >Sales Record</a>');
             echo ('<a href="aboutus.php"style="background-color:#1b383d; color:white">About Us</a>');
