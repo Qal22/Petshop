@@ -1,6 +1,6 @@
 <?php
 require 'fx.php';
-
+session_start();
 $id = $_GET["id"];
 
 $prod = query("SELECT * FROM product WHERE prod_id = $id")[0];
