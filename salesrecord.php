@@ -156,7 +156,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                     mysqli_close($conn);
                     ?>
                 </div>
-                <br><br><br><br><br>
+                <br><br><br><br><br><br><br><br>
 
                 <div id="footer">
                     <b>&copy; MyPet Sdn Bhd. All Rights Reserved (Educational Purposes)</b>
