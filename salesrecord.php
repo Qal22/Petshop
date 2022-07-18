@@ -96,7 +96,6 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
             echo ('</div>');
         } else  if ($_SESSION["userlevel"]== "admin") {
             echo ('<div id="header" align="center">');
-            echo ('<a href="index.php">MyPet</a>');
             echo ('<a href="admin.php">Products</a>');
             echo ('<a href="salesrecord.php" style="background-color:#1b383d; color:white">Sales Record</a>');
             echo ('<a href="aboutus.php">About Us</a>');
